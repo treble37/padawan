@@ -21,6 +21,12 @@ defmodule Padawan do
     end
   end
 
+  defmacro __before_compile__(_env) do
+    quote do
+      def run_tests, do: Padawan.TestRunner.run(@tests, __MODULE__)
+    end
+  end
+
   @doc "describe with description only"
   defmacro describe(_description, do: block) do
     quote do: unquote(block)
@@ -35,7 +41,7 @@ defmodule Padawan do
     func = String.to_atom(description)
 
     quote do
-      @tests {unquote(func), unquote(description)}
+      @tests {__ENV__.line, unquote(func), unquote(description)}
       def unquote(func)(), do: unquote(test_block)
     end
   end
