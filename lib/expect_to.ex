@@ -1,6 +1,6 @@
 defmodule Padawan.ExpectTo do
   @moduledoc """
-    Defines `to` and `to_not` functions which call specific 'assertion'
+    Defines `to` function(s) which call specific 'assertion'
   """
 
   @doc "Calls specific assertion."
