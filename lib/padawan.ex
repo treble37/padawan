@@ -48,8 +48,8 @@ defmodule Padawan do
 
   @doc "Aliases for `describe`."
   Enum.each(@aliases, fn func ->
-    defmacro unquote(func)(description_or_opts, do: block) do
-      quote do: describe(unquote(description_or_opts), do: unquote(block))
+    defmacro unquote(func)(description, do: block) do
+      quote do: describe(unquote(description), do: unquote(block))
     end
 
     defmacro unquote(func)(do: block) do
