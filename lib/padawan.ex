@@ -38,9 +38,11 @@ defmodule Padawan do
   end
 
   defmacro it(description, do: test_block) do
-    func = String.to_atom(description)
-
-    quote bind_quoted: [description: description, test_block: test_block] do
+    quote bind_quoted: [
+            description: description,
+            func: function_id(description),
+            test_block: test_block
+          ] do
       @tests {__ENV__.line, func, description}
       def unquote(func)(), do: unquote(test_block)
     end
@@ -57,4 +59,12 @@ defmodule Padawan do
       quote bind_quoted: [block: block], do: describe(do: block)
     end
   end)
+
+  defp function_id(description) do
+    UUID.uuid1()
+    |> ShortUUID.encode!()
+    |> Kernel.<>("-")
+    |> Kernel.<>(description)
+    |> String.to_atom()
+  end
 end
