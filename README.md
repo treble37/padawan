@@ -1,6 +1,7 @@
 # Padawan
 
-This is the demo repo for my talk Rebuilding a BDD Framework (ESpec) given at Empex LA 2019.
+This is the demo repo for my talk Rebuilding ESpec.
+
 It is my attempt to see what it's like to build a simplified clone of the awesome [ESpec test framework](https://github.com/antonmi/espec)
 
 ## Running
