@@ -1,0 +1,4 @@
+%{
+  "elixir_uuid": {:hex, :elixir_uuid, "1.2.1", "dce506597acb7e6b0daeaff52ff6a9043f5919a4c3315abb4143f0b00378c097", [:mix], [], "hexpm"},
+  "shortuuid": {:hex, :shortuuid, "2.1.1", "2a49825ee29e44e30c9c1bde298c266c3979888d1b10b2935336a6c6c1b8fad8", [:mix], [], "hexpm"},
+}
