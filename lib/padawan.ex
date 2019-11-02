@@ -40,8 +40,8 @@ defmodule Padawan do
   defmacro it(description, do: test_block) do
     func = String.to_atom(description)
 
-    quote do
-      @tests {__ENV__.line, unquote(func), unquote(description)}
+    quote bind_quoted: [description: description, test_block: test_block] do
+      @tests {__ENV__.line, func, description}
       def unquote(func)(), do: unquote(test_block)
     end
   end
@@ -49,11 +49,12 @@ defmodule Padawan do
   @doc "Aliases for `describe`."
   Enum.each(@aliases, fn func ->
     defmacro unquote(func)(description, do: block) do
-      quote do: describe(unquote(description), do: unquote(block))
+      quote bind_quoted: [description: description, block: block],
+            do: describe(description, do: block)
     end
 
     defmacro unquote(func)(do: block) do
-      quote do: describe(do: unquote(block))
+      quote bind_quoted: [block: block], do: describe(do: block)
     end
   end)
 end
