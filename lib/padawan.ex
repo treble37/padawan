@@ -15,7 +15,7 @@ defmodule Padawan do
       import unquote(__MODULE__)
 
       # Elixir allows us to set a special module attribute, @before_compile, to notify the compiler that an extra step is required just before compilation is finished.
-      Module.register_attribute(__MODULE__, :tests, accumulate: true)
+      Module.register_attribute(__MODULE__, :specs, accumulate: true)
       import Padawan.ExpectTo
       import Padawan.Expect
       import Padawan.Helpers
@@ -26,7 +26,7 @@ defmodule Padawan do
 
   defmacro __before_compile__(_env) do
     quote do
-      def run_tests, do: Padawan.TestRunner.run(@tests, __MODULE__)
+      def run_tests, do: Padawan.TestRunner.run(@specs, __MODULE__)
     end
   end
 
@@ -45,7 +45,7 @@ defmodule Padawan do
             func: function_id(description),
             test_block: test_block
           ] do
-      @tests {__ENV__.line, func}
+      @specs {__ENV__.line, func}
       def unquote(func)(), do: unquote(test_block)
     end
   end
