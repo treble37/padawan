@@ -5,10 +5,13 @@ defmodule Padawan do
   One should `use` the module in spec modules.
   """
 
+  @spec_agent :padawan_spec_agent
+
   @aliases ~w(context)a
 
   defmacro __using__(_opts) do
     quote do
+      Padawan.add_spec(__MODULE__)
       import unquote(__MODULE__)
 
       # Elixir allows us to set a special module attribute, @before_compile, to notify the compiler that an extra step is required just before compilation is finished.
@@ -58,6 +61,19 @@ defmodule Padawan do
       quote bind_quoted: [block: block], do: describe(do: block)
     end
   end)
+
+  @doc "Start agent to store module specs"
+  def start do
+    start_spec_agent()
+  end
+
+  @doc "Adds example to the agent."
+  def add_spec(module), do: Agent.update(@spec_agent, &[module | &1])
+
+  @doc "Returns all modules with specs"
+  def specs, do: Agent.get(@spec_agent, & &1)
+
+  defp start_spec_agent, do: Agent.start_link(fn -> [] end, name: @spec_agent)
 
   defp function_id(description) do
     UUID.uuid1()
